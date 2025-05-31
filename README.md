@@ -20,7 +20,7 @@ With the increase in security threats and identity theft, Voice Fidelity Guard i
 
 
 ## 📁 Project Structure
-
+```bash
  voice-guard/
 ├── client/                     # Frontend (React app)
 ├── server/                     # Backend (Node.js / Express)
@@ -28,7 +28,7 @@ With the increase in security threats and identity theft, Voice Fidelity Guard i
 │   └── Voice.ipynb         # Jupyter notebook for model development
 ├── README.md                   # Project overview
 └── package.json                # Dependencies
-
+```
 ## 🚀 Getting Started
 
 ### Prerequisites
