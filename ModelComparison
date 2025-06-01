@@ -1,0 +1,207 @@
+import React from "react";
+import { 
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent, 
+  ChartLegend,
+  ChartLegendContent
+} from "@/components/ui/chart";
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend, 
+  ResponsiveContainer,
+  LineChart,
+  Line
+} from "recharts";
+
+const ModelComparison = () => {
+  const accuracyData = [
+    { name: 'CNN', accuracy: 80 },
+    { name: 'LSTM', accuracy: 85 },
+    { name: 'ResNet', accuracy: 92 },
+    { name: 'CNN-BiLSTM', accuracy: 100 }
+  ];
+
+  const trainingData = [
+    { epoch: 1, cnn: 45, lstm: 50, resnet: 60, hybrid: 70 },
+    { epoch: 2, cnn: 60, lstm: 65, resnet: 75, hybrid: 85 },
+    { epoch: 3, cnn: 68, lstm: 75, resnet: 85, hybrid: 92 },
+    { epoch: 4, cnn: 72, lstm: 80, resnet: 88, hybrid: 95 },
+    { epoch: 5, cnn: 80, lstm: 85, resnet: 92, hybrid: 100 },
+  ];
+  
+  const modelFeatures = [
+    {
+      model: "CNN-BiLSTM",
+      features: [
+        "Combines pattern recognition with time sequence analysis",
+        "Bidirectional capability captures context from both directions",
+        "Multi-layer architecture for complex feature learning",
+        "Optimized for voice pattern detection",
+        "Low false positive rate"
+      ],
+      strengths: "Superior for detecting synthetic speech patterns in short audio segments.",
+      training: "Trained on over 10,000 audio samples balancing real and synthetic voices."
+    },
+    {
+      model: "CNN",
+      features: [
+        "Good at detecting spatial patterns",
+        "Efficient feature extraction",
+        "Handles varied audio quality"
+      ],
+      strengths: "Effective at identifying visual patterns in spectrograms.",
+      training: "Required more samples to achieve acceptable accuracy."
+    },
+    {
+      model: "LSTM",
+      features: [
+        "Captures sequential dependencies",
+        "Maintains context over time",
+        "Handles variable length inputs"
+      ],
+      strengths: "Better at detecting inconsistencies over time in speech patterns.",
+      training: "Slower to train but performs well on temporal features."
+    },
+    {
+      model: "ResNet",
+      features: [
+        "Deep architecture with residual connections",
+        "Handles complex patterns",
+        "Good generalization"
+      ],
+      strengths: "Strong performance on complex audio patterns, but heavier computational requirements.",
+      training: "Required extensive hyperparameter tuning."
+    },
+  ];
+
+  const barColors = ['#94A3B8', '#64748B', '#475569', '#1E40AF'];
+  const lineColors = ['#94A3B8', '#64748B', '#475569', '#1E40AF'];
+  
+  return (
+    <div className="w-full">
+      <h2 className="text-xl font-semibold mb-6">Model Performance Comparison</h2>
+      
+      <div className="mb-8">
+        <h3 className="text-lg font-medium mb-4">Accuracy Comparison</h3>
+        <div className="h-80">
+          <ChartContainer 
+            className="h-full w-full" 
+            config={{
+              'CNN': { color: barColors[0] },
+              'LSTM': { color: barColors[1] },
+              'ResNet': { color: barColors[2] },
+              'CNN-BiLSTM': { color: barColors[3] },
+            }}
+          >
+            <BarChart
+              data={accuracyData}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis domain={[0, 100]} />
+              <Tooltip content={<ChartTooltipContent />} />
+              <Legend content={<ChartLegendContent />} />
+              <Bar dataKey="accuracy" name="Accuracy %" fill="#1E40AF" />
+            </BarChart>
+          </ChartContainer>
+        </div>
+      </div>
+      
+      <div className="mb-8">
+        <h3 className="text-lg font-medium mb-4">Training Performance Over Time</h3>
+        <div className="h-80">
+          <ChartContainer 
+            className="h-full w-full" 
+            config={{
+              'cnn': { color: lineColors[0], label: 'CNN' },
+              'lstm': { color: lineColors[1], label: 'LSTM' },
+              'resnet': { color: lineColors[2], label: 'ResNet' },
+              'hybrid': { color: lineColors[3], label: 'CNN-BiLSTM' },
+            }}
+          >
+            <LineChart
+              data={trainingData}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="epoch" label={{ value: 'Epoch', position: 'insideBottom', offset: -5 }} />
+              <YAxis domain={[0, 100]} label={{ value: 'Accuracy %', angle: -90, position: 'insideLeft' }} />
+              <Tooltip content={<ChartTooltipContent />} />
+              <Legend content={<ChartLegendContent />} />
+              <Line type="monotone" dataKey="cnn" name="CNN" stroke={lineColors[0]} activeDot={{ r: 6 }} />
+              <Line type="monotone" dataKey="lstm" name="LSTM" stroke={lineColors[1]} activeDot={{ r: 6 }} />
+              <Line type="monotone" dataKey="resnet" name="ResNet" stroke={lineColors[2]} activeDot={{ r: 6 }} />
+              <Line type="monotone" dataKey="hybrid" name="CNN-BiLSTM" stroke={lineColors[3]} activeDot={{ r: 6 }} strokeWidth={2} />
+            </LineChart>
+          </ChartContainer>
+        </div>
+      </div>
+      
+      <div className="mb-8">
+        <h3 className="text-lg font-medium mb-4">Model Architecture Comparison</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-slate-100">
+                <th className="border p-3 text-left">Model</th>
+                <th className="border p-3 text-left">Key Features</th>
+                <th className="border p-3 text-left">Strengths</th>
+              </tr>
+            </thead>
+            <tbody>
+              {modelFeatures.map((item, index) => (
+                <tr key={index} className={index === 0 ? "bg-blue-50" : ""}>
+                  <td className="border p-3 font-medium">{item.model}</td>
+                  <td className="border p-3">
+                    <ul className="list-disc list-inside space-y-1 text-sm">
+                      {item.features.map((feature, i) => (
+                        <li key={i}>{feature}</li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td className="border p-3 text-sm">{item.strengths}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div>
+        <h3 className="text-lg font-medium mb-4">Why CNN-BiLSTM is Superior</h3>
+        <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 text-sm">
+          <p className="mb-3">
+            Our hybrid CNN-BiLSTM architecture delivers the highest accuracy by combining the strengths of both CNN and LSTM models:
+          </p>
+          <ul className="list-disc list-inside space-y-2 mb-3">
+            <li>
+              <span className="font-medium">Feature extraction:</span> CNNs excel at extracting spatial features from spectrograms
+            </li>
+            <li>
+              <span className="font-medium">Temporal patterns:</span> BiLSTMs capture time-dependent voice characteristics from both directions
+            </li>
+            <li>
+              <span className="font-medium">Reduced false positives:</span> Combined approach minimizes incorrect classifications
+            </li>
+            <li>
+              <span className="font-medium">Fast detection:</span> Optimized architecture provides results in seconds
+            </li>
+          </ul>
+          <p>
+            In extensive testing across multiple datasets, our CNN-BiLSTM model consistently outperformed single-architecture approaches, 
+            particularly with challenging audio samples that contained background noise or short duration.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ModelComparison;
