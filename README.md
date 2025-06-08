@@ -25,7 +25,7 @@ With the increase in security threats and identity theft, Voice Fidelity Guard i
 ├── client/                     # Frontend (React app)
 ├── server/                     # Backend (Node.js / Express)
 ├── model/                      # Python ML code
-│   └── Voice.ipynb         # Jupyter notebook for model development
+│   └── Voice.ipynb             # Jupyter notebook for model development
 ├── README.md                   # Project overview
 └── package.json                # Dependencies
 ```
@@ -36,7 +36,7 @@ With the increase in security threats and identity theft, Voice Fidelity Guard i
 - Node.js
 - Python 3.8+
 - npm or yarn
-- Jupyter Notebook (for running `.ipynb` file)
+- Jupyter Notebook (for running `voice.ipynb` file)
 
 ### Installation
 
